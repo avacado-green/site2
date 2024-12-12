@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Мой сайт{% endblock %}</title>
+    <link rel="stylesheet" href="/path/to/style.css">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<header>
+    {% block header %}
+        <h1>Шапка сайта</h1>
+    {% endblock %}
+</header>
+
+<aside>
+    {% block sidebar %}
+        <p>Сайдбар</p>
+    {% endblock %}
+</aside>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    {% block footer %}
+        <p>Подвал сайта</p>
+    {% endblock %}
+</footer>
+</body>
+</html>
+
