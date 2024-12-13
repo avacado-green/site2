@@ -1,50 +1,45 @@
 <?php
 
 class UserController {
-    public function update() {
-        if (isset($_GET['id']) && isset($_GET['name'])) {
-            $id = intval($_GET['id']);
-            $name = htmlspecialchars($_GET['name']);
-
-            if ($this->userExists($id)) {
-                $this->updateUserName($id, $name);
-                echo "User with ID $id has been updated with new name: $name";
-            } else {
-                echo "User with ID $id does not exist.";
-            }
+    public function create() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = htmlspecialchars($_POST['name']);
+            $birthday = htmlspecialchars($_POST['birthday']);
+            // Логика создания пользователя
+            echo "User created: $name, $birthday";
         } else {
-            echo "Invalid request. Missing 'id' or 'name' parameter.";
+            echo $twig->render('create_user.html.twig');
+        }
+    }
+
+    public function update() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = intval($_POST['id']);
+            $name = htmlspecialchars($_POST['name']);
+            // Логика обновления пользователя
+            echo "User with ID $id has been updated with new name: $name";
+        } else {
+            // Получение текущих данных пользователя
+            $user = $this->getUserById($_GET['id']);
+            echo $twig->render('update_user.html.twig', ['user' => $user]);
         }
     }
 
     public function delete() {
-        if (isset($_GET['id'])) {
-            $id = intval($_GET['id']);
-
-            if ($this->userExists($id)) {
-                $this->deleteUser($id);
-                echo "User with ID $id has been deleted.";
-            } else {
-                echo "User with ID $id does not exist.";
-            }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = intval($_POST['id']);
+            // Логика удаления пользователя
+            echo "User with ID $id has been deleted.";
         } else {
-            echo "Invalid request. Missing 'id' parameter.";
+            echo $twig->render('delete_user.html.twig');
         }
     }
 
-    private function userExists($id) {
-        return true;
-    }
-
-    private function updateUserName($id, $name) {
-    }
-
-    private function deleteUser($id) {
+    private function getUserById($id) {
+        // Логика получения данных пользователя по ID
+        return ['id' => $id, 'name' => 'Иван'];
     }
 }
 
-$controller = new UserController();
-$controller->update();
-$controller->delete();
 
 
